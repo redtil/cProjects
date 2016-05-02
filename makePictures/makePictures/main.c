@@ -9,8 +9,9 @@
 #include <stdio.h>
 
 void square(){
-    for(int i = 0; i <= 10; ++i){
-        for(int j = 0; j <= 10; ++j){
+    int i,j;
+    for(i = 0; i <= 10; ++i){
+        for(j = 0; j <= 10; ++j){
             if((i==0) || (j==0) || (i==10) || (j==10))
                printf("*");
             else
@@ -22,8 +23,9 @@ void square(){
     }
 }
 void oval(){
-    for(int i = 0; i <= 10; ++i){
-        for(int j = 0; j <= 10; ++j){
+    int i,j;
+    for(i = 0; i <= 10; ++i){
+        for(j = 0; j <= 10; ++j){
             if((i==0 || i==10) && (j>=4) && (j<=6))
                 printf("*");
             else if((j==0 || j==10) && (i>=2) && (i<=8))
@@ -39,8 +41,9 @@ void oval(){
     }
 }
 void arrow(){
-    for(int i = 0; i <= 10; ++i){
-        for(int j = 0; j <= 4; ++j){
+    int i,j;
+    for(i = 0; i <= 10; ++i){
+        for( j = 0; j <= 4; ++j){
             if(j==2)
                 printf("*");
             else if((i==1 || i==2) && (j==1 || j==3))
@@ -56,8 +59,9 @@ void arrow(){
 }
 
 void diamond(){
-    for(int i = 0; i <= 10; ++i){
-        for(int j = 0; j <= 10; ++j){
+    int i,j;
+    for(i = 0; i <= 10; ++i){
+        for(j = 0; j <= 10; ++j){
             if((i+j==5) || (i+j==15) || (j-i==5) || (i-j==5))
                 printf("*");
             else
