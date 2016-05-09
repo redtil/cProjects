@@ -28,6 +28,8 @@ void list_destroy(List *list);
 void destroy(void *ptr);
 int list_ins_next(List *list, ListElmt *element, const void *data);
 int list_rem_next(List *list, ListElmt *element, void ** data);
+List *merge_linked_lists(List *listOne, List *listTwo);
+void toString(List *linkedList);
 #define list_size(list) ((list)->size)
 #define list_head(list) ((list)->head)
 #define list_tail(list) ((list)->tail)

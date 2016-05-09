@@ -33,13 +33,17 @@ int list_ins_next(List *list, ListElmt *element, const void *data){
     if(list->tail != NULL){
         list->tail->next = element;
         element->data = (void *)data;
+        element->next = NULL;
+        list->tail = element;
     }
     else{
         list->head = element;
         list->tail = element;
         element->data = (void *)data;
+        element->next = NULL;
     }
     list->size++;
+//    printf("%d\n", *((int*)(element->data)));
     return 0;
 }
 int list_rem_next(List *list, ListElmt *element, void ** data){
@@ -58,20 +62,31 @@ int list_rem_next(List *list, ListElmt *element, void ** data){
     return 0;
 }
 static int compareListElmt(ListElmt *listElmtOne, ListElmt* listElmtTwo){
-    if(listElmtOne->data > listElmtTwo->data){
+    if(*((int*)listElmtOne->data) > *((int*)listElmtTwo->data)){
         return 1;
     }
-    else{
+    else if(*((int*)listElmtOne->data) < *((int*)listElmtTwo->data)){
         return -1;
+    }
+    else{
+        return 0;
     }
 }
 
 static void insertAndMove(List *mergedList, ListElmt **listElmt, void *data){
-    list_ins_next(mergedList,*listElmt,(*listElmt)->data);
+    ListElmt *listElmtThis = (ListElmt *)malloc(sizeof(List));
+    listElmtThis->data = (*listElmt)->data;
+    list_ins_next(mergedList,listElmtThis,listElmtThis->data);
     *listElmt = (*listElmt)->next;
 }
+void toString(List *linkedList){
+    ListElmt *i;
+    for(i = linkedList->head; i != NULL; i = i->next){
+        printf("%d\n", *((int*)(i->data)));
+    }
+}
 
-List * merge_linked_lists(List *listOne, List *listTwo) {
+List *merge_linked_lists(List *listOne, List *listTwo) {
     List *mergedList = (List *) malloc(sizeof(List));
     list_init(mergedList, destroy);
     if (listOne == NULL && listTwo == NULL)
@@ -83,13 +98,17 @@ List * merge_linked_lists(List *listOne, List *listTwo) {
     else {
         ListElmt *listElmtOne = listOne->head;
         ListElmt *listElmtTwo = listTwo->head;
-        int i;
         while (listElmtOne != NULL || listElmtTwo != NULL) {
+            int i;
             i = compareListElmt(listElmtOne, listElmtTwo);
             if (i > 0) {
                 insertAndMove(mergedList, &listElmtOne, listElmtOne->data);
             }
-            else {
+            else if( i < 0){
+                insertAndMove(mergedList, &listElmtTwo, listElmtTwo->data);
+            }
+            else{
+                insertAndMove(mergedList, &listElmtOne, listElmtOne->data);
                 insertAndMove(mergedList, &listElmtTwo, listElmtTwo->data);
             }
         }

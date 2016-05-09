@@ -8,45 +8,43 @@
 
 #include <stdio.h>
 #include "linkedLists.h"
+#include <string.h>
 #define linkedLists "linkedLists"
 #define doublyLinkedLists "doublyLinkedLists"
 
 static void testLinkedLists(){
     List *linkedListOne = (List *) malloc(sizeof(List));
     List *linkedListTwo = (List *) malloc(sizeof(List));
-    (*fnPtr) = destroy;
+    void (*fnPtr)(void *) = destroy;
     list_init(linkedListOne,fnPtr);
-    list_init(linkedLisstTwo,fnPtr);
+    list_init(linkedListTwo,fnPtr);
     ListElmt *listElmt;
     int i;
-    for(i = 0; i < 5; i++){
+    for(i = 5; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
-        const int *data = i;
-        list_ins_next(linkedListOne,listElmtOne,data);
+        int *data = (int *)malloc(sizeof(int));
+        *data = i;
+        list_ins_next(linkedListOne,listElmt,data);
     }
     for(i = 10; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
-        const int *data = i;
+        int *data = (int *)malloc(sizeof(int));
+        *data = i;
         list_ins_next(linkedListTwo,listElmt,data);
     }
-
     List *mergedList = merge_linked_lists(linkedListOne, linkedListTwo);
-    ListElmt *i;
-    for(i = mergedList->head; i != NULL; i = i->next){
-        printf("%d\n",i->data);
+    ListElmt *j;
+    for(j = mergedList->head; j != NULL; j = j->next){
+        printf("%d\n",*((int *)(j->data)));
     }
 }
 
 static void test(char testType[]){
-    switch(testType){
-        case linkedLists:
-            testLinkedLists();
-            break;
-        case doublyLinkedLists:
-            break;
+    if(!strcmp("linkedLists",testType)){
+        testLinkedLists();
     }
 }
 
 int main(int argc, const char * argv[]) {
-    test(argv[1]);
+    test((char *)argv[1]);
 }
