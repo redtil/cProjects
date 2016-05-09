@@ -7,21 +7,16 @@
 //
 
 #include <stdio.h>
-static void test(char testType[]){
-    switch(testype){
-        case linkedLists:
-            testLinkedLists();
-            break;
-        case doublyLinkedLists:
-            break;
-    }
-}
+#include "linkedLists.h"
+#define linkedLists "linkedLists"
+#define doublyLinkedLists "doublyLinkedLists"
 
 static void testLinkedLists(){
     List *linkedListOne = (List *) malloc(sizeof(List));
     List *linkedListTwo = (List *) malloc(sizeof(List));
-    list_init(linkedListOne,destroy);
-    list_init(linkedLisstTwo,destroy);
+    (*fnPtr) = destroy;
+    list_init(linkedListOne,fnPtr);
+    list_init(linkedLisstTwo,fnPtr);
     ListElmt *listElmt;
     int i;
     for(i = 0; i < 5; i++){
@@ -41,6 +36,17 @@ static void testLinkedLists(){
         printf("%d\n",i->data);
     }
 }
+
+static void test(char testType[]){
+    switch(testType){
+        case linkedLists:
+            testLinkedLists();
+            break;
+        case doublyLinkedLists:
+            break;
+    }
+}
+
 int main(int argc, const char * argv[]) {
     test(argv[1]);
 }

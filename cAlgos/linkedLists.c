@@ -25,7 +25,7 @@ void list_destroy(List *list){
     free(list);
 }
 void destroy(void * ptr){
-    free((ListElmt *)ptr->data);
+    free(((ListElmt *)ptr)->data);
     free(ptr);
 }
 
@@ -45,7 +45,7 @@ int list_ins_next(List *list, ListElmt *element, const void *data){
 int list_rem_next(List *list, ListElmt *element, void ** data){
     if(element != NULL && element->next != NULL){
         element->next = element->next->next;
-        if(ele  ment->next == NULL)
+        if(element->next == NULL)
             list->tail = element;
         list->size--;
         
@@ -67,13 +67,13 @@ static int compareListElmt(ListElmt *listElmtOne, ListElmt* listElmtTwo){
 }
 
 static void insertAndMove(List *mergedList, ListElmt **listElmt, void *data){
-    list_ins_next(mergedList,*listElmt,*listElmt->data);
+    list_ins_next(mergedList,*listElmt,(*listElmt)->data);
     *listElmt = (*listElmt)->next;
 }
 
 List * merge_linked_lists(List *listOne, List *listTwo) {
     List *mergedList = (List *) malloc(sizeof(List));
-    list_init(List * mergedList, <#void (*destroy)(void *)#>);
+    list_init(mergedList, destroy);
     if (listOne == NULL && listTwo == NULL)
         return NULL;
     else if (listOne == NULL)
