@@ -7,6 +7,8 @@
 //
 
 #include "linkedLists.h"
+#include "doublyLinkedLists.h"
+
 void list_init(List *list, void (*destroy)(void *data)){
     list->size = 0;
     list->destroy = destroy;
@@ -22,8 +24,9 @@ void list_destroy(List *list){
     }
     free(list);
 }
-void destroy(){
-    
+void destroy(void * ptr){
+    free((ListElmt *)ptr->data);
+    free(ptr);
 }
 
 int list_ins_next(List *list, ListElmt *element, const void *data){
@@ -42,7 +45,7 @@ int list_ins_next(List *list, ListElmt *element, const void *data){
 int list_rem_next(List *list, ListElmt *element, void ** data){
     if(element != NULL && element->next != NULL){
         element->next = element->next->next;
-        if(element->next == NULL)
+        if(ele  ment->next == NULL)
             list->tail = element;
         list->size--;
         
@@ -54,13 +57,52 @@ int list_rem_next(List *list, ListElmt *element, void ** data){
     }
     return 0;
 }
+static int compareListElmt(ListElmt *listElmtOne, ListElmt* listElmtTwo){
+    if(listElmtOne->data > listElmtTwo->data){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
 
-List * merge_linked_lists(List *listOne, List *listTwo)
-{
-    List *mergedList = (List *)malloc(sizeof(List));
-    list_init(List *mergedList, <#void (*destroy)(void *)#>);
-    if(listOne == NULL && listTwo == NULL)
+static void insertAndMove(List *mergedList, ListElmt **listElmt, void *data){
+    list_ins_next(mergedList,*listElmt,*listElmt->data);
+    *listElmt = (*listElmt)->next;
+}
+
+List * merge_linked_lists(List *listOne, List *listTwo) {
+    List *mergedList = (List *) malloc(sizeof(List));
+    list_init(List * mergedList, <#void (*destroy)(void *)#>);
+    if (listOne == NULL && listTwo == NULL)
         return NULL;
-    else if(listOne== NULL)
-
+    else if (listOne == NULL)
+        mergedList = listTwo;
+    else if (listTwo == NULL)
+        mergedList = listOne;
+    else {
+        ListElmt *listElmtOne = listOne->head;
+        ListElmt *listElmtTwo = listTwo->head;
+        int i;
+        while (listElmtOne != NULL || listElmtTwo != NULL) {
+            i = compareListElmt(listElmtOne, listElmtTwo);
+            if (i > 0) {
+                insertAndMove(mergedList, &listElmtOne, listElmtOne->data);
+            }
+            else {
+                insertAndMove(mergedList, &listElmtTwo, listElmtTwo->data);
+            }
+        }
+        if (listElmtOne == NULL && listElmtTwo != NULL) {
+            while (listElmtTwo != NULL) {
+                insertAndMove(mergedList, &listElmtTwo, listElmtTwo->data);
+            }
+        }
+        else {
+            while (listElmtOne != NULL) {
+                insertAndMove(mergedList, &listElmtOne, listElmtOne->data);
+            }
+        }
+    }
+    return mergedList;
 }
