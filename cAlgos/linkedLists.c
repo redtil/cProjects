@@ -125,3 +125,20 @@ List *merge_linked_lists(List *listOne, List *listTwo) {
     }
     return mergedList;
 }
+
+void reverseLinkedList(List *linkedList){
+    ListElmt *i, *j, *k, *temp;
+    if(linkedList == NULL)
+        return;
+    i = NULL;
+    j = linkedList->head;
+    while(j != NULL){
+        k = j->next;
+        j->next = i;
+        i = j;
+        j = k;
+    }
+    temp = linkedList->head;
+    linkedList->head = linkedList->tail;
+    linkedList->tail = temp;
+}

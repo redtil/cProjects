@@ -9,23 +9,37 @@
 #include <stdio.h>
 #include "linkedLists.h"
 #include <string.h>
-#define linkedLists "linkedLists"
-#define doublyLinkedLists "doublyLinkedLists"
 
-static void testLinkedLists(){
+static List *makeLinkedList(){
     List *linkedListOne = (List *) malloc(sizeof(List));
-    List *linkedListTwo = (List *) malloc(sizeof(List));
     void (*fnPtr)(void *) = destroy;
     list_init(linkedListOne,fnPtr);
-    list_init(linkedListTwo,fnPtr);
     ListElmt *listElmt;
     int i;
-    for(i = 5; i > 0; i--){
+    for(i = 10; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
         int *data = (int *)malloc(sizeof(int));
         *data = i;
         list_ins_next(linkedListOne,listElmt,data);
     }
+    return linkedListOne;
+}
+
+static void testReversingLinkedLists(){
+    List *linkedList = makeLinkedList();
+    toString(linkedList);
+    printf("\n");
+    reverseLinkedList(linkedList);
+    toString(linkedList);
+}
+
+static void mergeLinkedLists(){
+    List *linkedListTwo = (List *) malloc(sizeof(List));
+    void (*fnPtr)(void *) = destroy;
+    list_init(linkedListTwo,fnPtr);
+    ListElmt *listElmt;
+    int i;
+    List *linkedListOne = makeLinkedList();
     for(i = 10; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
         int *data = (int *)malloc(sizeof(int));
@@ -40,8 +54,11 @@ static void testLinkedLists(){
 }
 
 static void test(char testType[]){
-    if(!strcmp("linkedLists",testType)){
-        testLinkedLists();
+    if(!strcmp("mergeLinkedLists",testType)){
+        mergeLinkedLists();
+    }
+    else if(!strcmp("reverseLinkedList",testType)){
+        testReversingLinkedLists();
     }
 }
 
