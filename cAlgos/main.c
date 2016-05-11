@@ -29,7 +29,7 @@ static void testReversingLinkedLists(){
     List *linkedList = makeLinkedList();
     toString(linkedList);
     printf("\n");
-    reverseLinkedList(linkedList);
+    reverseSubLinkedList(linkedList, 2, 2);
     toString(linkedList);
 }
 

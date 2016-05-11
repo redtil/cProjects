@@ -142,3 +142,46 @@ void reverseLinkedList(List *linkedList){
     linkedList->head = linkedList->tail;
     linkedList->tail = temp;
 }
+
+static void printListElmt(ListElmt *elmt){
+    printf("%d",*((int*)(elmt->data)));
+}
+void reverseSubLinkedList(List *linkedList, int start, int end){
+    if(start < 0 || end < 0 || start > end) return;
+    if(start == end) return;
+    ListElmt *beforeStartElmt, *startElmt, *endElmt, *afterEndElmt;
+    ListElmt *ptr;
+    ListElmt *i, *j, *k;
+    int cnt = 1;
+    beforeStartElmt = NULL;
+    for(ptr = linkedList->head; (cnt < start) && (ptr!= NULL); ptr = ptr->next){
+        if(cnt == start-1) beforeStartElmt = ptr;
+        cnt++;
+
+    }
+    startElmt = ptr;
+    i = startElmt;
+    if(startElmt!= NULL)
+        j = startElmt->next;
+    while((j!= NULL) && (cnt<end)){
+        k = j->next;
+        endElmt = j;
+        afterEndElmt = endElmt->next;
+        j->next = i;
+        i = j;
+        j = k;
+        cnt++;
+    }
+
+    startElmt->next = afterEndElmt;
+    if(beforeStartElmt != NULL){
+        beforeStartElmt->next = endElmt;
+    }
+
+    if(start == 1){
+        linkedList->head = endElmt;
+    }
+    if(afterEndElmt == NULL){
+        linkedList->tail = startElmt;
+    }
+}
