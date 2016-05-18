@@ -28,14 +28,14 @@ static List *makeLinkedList(int size){
 static void testIfListsMerged(){
     List *linkedListOne = makeLinkedList(10);
     List *linkedListTwo = makeLinkedList(10);
-//    ListElmt *ptr;
-//    for(ptr = linkedListOne->head; ptr!= NULL; ptr = ptr->next){
-//        if(*((int*)(ptr->data)) == 5)
-//            break;
-//    }
-//    linkedListTwo->tail->next = ptr;
-//    linkedListTwo->tail = linkedListOne->tail;
-    Bool val = haveCommonElementOne(linkedListOne,linkedListTwo);
+    ListElmt *ptr;
+    for(ptr = linkedListOne->head; ptr!= NULL; ptr = ptr->next){
+        if(*((int*)(ptr->data)) == 5)
+            break;
+    }
+    linkedListTwo->tail->next = ptr;
+    linkedListTwo->tail = linkedListOne->tail;
+    Bool val = haveCommonElementTwo(linkedListOne,linkedListTwo);
     printf("%d",val);
 }
 

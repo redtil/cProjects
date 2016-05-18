@@ -8,7 +8,6 @@
 
 #ifndef linkedLists_h
 #define linkedLists_h
-
 #include <stdlib.h>
 typedef struct ListElmt_{
     void *data;

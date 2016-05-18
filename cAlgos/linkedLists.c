@@ -203,6 +203,48 @@ Bool haveCommonElementOne(List *listOne, List *listTwo){
     return FALSE;
 }
 
-void haveCommonElementTwo(List *listOne, List *listTwo){
-
+Bool haveCommonElementTwo(List *listOne, List *listTwo){
+    ListElmt *ptr;
+    ListElmt *aPtr;
+    int cntOne = 0;
+    int cntTwo = 0;
+    int diff;
+    int i;
+    for(ptr = listOne->head; ptr != NULL; ptr = ptr->next){
+        cntOne++;
+    }
+    for(ptr = listTwo->head; ptr != NULL; ptr = ptr->next){
+        cntTwo++;
+    }
+    diff = abs(cntOne-cntTwo);
+    if(cntOne > cntTwo)
+        ptr = listOne->head;
+    else
+        ptr = listTwo->head;
+    for(i = 0; i < diff; i++){
+        ptr = ptr->next;
+    }
+    if(cntOne > cntTwo){
+        for(aPtr = listTwo->head; aPtr != NULL; aPtr = aPtr->next){
+            if(ptr == aPtr)
+            {
+                return TRUE;
+            }
+            else{
+                ptr = ptr->next;
+            }
+        }
+    }
+    else{
+        for(aPtr = listOne->head; aPtr!= NULL; aPtr = aPtr->next){
+            if(ptr == aPtr)
+            {
+                return TRUE;
+            }
+            else{
+                ptr = ptr->next;
+            }
+        }
+    }
+    return FALSE;
 }
