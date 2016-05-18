@@ -157,7 +157,6 @@ void reverseSubLinkedList(List *linkedList, int start, int end){
     for(ptr = linkedList->head; (cnt < start) && (ptr!= NULL); ptr = ptr->next){
         if(cnt == start-1) beforeStartElmt = ptr;
         cnt++;
-
     }
     startElmt = ptr;
     i = startElmt;
@@ -184,4 +183,26 @@ void reverseSubLinkedList(List *linkedList, int start, int end){
     if(afterEndElmt == NULL){
         linkedList->tail = startElmt;
     }
+}
+
+Bool haveCommonElementOne(List *listOne, List *listTwo){
+    ListElmt *ptr;
+    ListElmt *endOne;
+    ListElmt *endTwo;
+    for(ptr = listOne->head; ptr != NULL; ptr=ptr->next){
+        if(ptr->next == NULL){
+            endOne = ptr;
+        }
+    }
+    for(ptr = listTwo->head; ptr != NULL; ptr=ptr->next){
+        if(ptr->next == NULL){
+            endTwo = ptr;
+        }
+    }
+    if(endOne == endTwo) return TRUE;
+    return FALSE;
+}
+
+void haveCommonElementTwo(List *listOne, List *listTwo){
+
 }

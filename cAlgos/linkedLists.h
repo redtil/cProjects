@@ -23,6 +23,7 @@ typedef struct List_ {
     ListElmt *tail;
 } List;
 
+typedef enum{FALSE, TRUE} Bool;
 void list_init(List *list, void (*destroy)(void *data));
 void list_destroy(List *list);
 void destroy(void *ptr);

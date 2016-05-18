@@ -10,13 +10,13 @@
 #include "linkedLists.h"
 #include <string.h>
 
-static List *makeLinkedList(){
+static List *makeLinkedList(int size){
     List *linkedListOne = (List *) malloc(sizeof(List));
     void (*fnPtr)(void *) = destroy;
     list_init(linkedListOne,fnPtr);
     ListElmt *listElmt;
     int i;
-    for(i = 10; i > 0; i--){
+    for(i = size; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
         int *data = (int *)malloc(sizeof(int));
         *data = i;
@@ -25,21 +25,36 @@ static List *makeLinkedList(){
     return linkedListOne;
 }
 
+static void testIfListsMerged(){
+    List *linkedListOne = makeLinkedList(10);
+    List *linkedListTwo = makeLinkedList(10);
+//    ListElmt *ptr;
+//    for(ptr = linkedListOne->head; ptr!= NULL; ptr = ptr->next){
+//        if(*((int*)(ptr->data)) == 5)
+//            break;
+//    }
+//    linkedListTwo->tail->next = ptr;
+//    linkedListTwo->tail = linkedListOne->tail;
+    Bool val = haveCommonElementOne(linkedListOne,linkedListTwo);
+    printf("%d",val);
+}
+
+
 static void testReversingLinkedLists(){
-    List *linkedList = makeLinkedList();
+    List *linkedList = makeLinkedList(10);
     toString(linkedList);
     printf("\n");
     reverseSubLinkedList(linkedList, 2, 2);
     toString(linkedList);
 }
 
-static void mergeLinkedLists(){
+static void testMergingLinkedLists(){
     List *linkedListTwo = (List *) malloc(sizeof(List));
     void (*fnPtr)(void *) = destroy;
     list_init(linkedListTwo,fnPtr);
     ListElmt *listElmt;
     int i;
-    List *linkedListOne = makeLinkedList();
+    List *linkedListOne = makeLinkedList(5);
     for(i = 10; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
         int *data = (int *)malloc(sizeof(int));
@@ -55,10 +70,13 @@ static void mergeLinkedLists(){
 
 static void test(char testType[]){
     if(!strcmp("mergeLinkedLists",testType)){
-        mergeLinkedLists();
+        testMergingLinkedLists();
     }
     else if(!strcmp("reverseLinkedList",testType)){
         testReversingLinkedLists();
+    }
+    else if(!strcmp("checkIfMerged",testType)){
+        testIfListsMerged();
     }
 }
 
