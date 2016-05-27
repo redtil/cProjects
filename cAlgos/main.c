@@ -31,17 +31,10 @@ static List *makeLinkedList(int size, Bool makeCycle){
     return linkedListOne;
 }
 
-
 static void testIfListsMerged(){
     List *linkedListOne = makeLinkedList(10,FALSE);
     List *linkedListTwo = makeLinkedList(10,FALSE);
-    ListElmt *ptr;
-    for(ptr = linkedListOne->head; ptr!= NULL; ptr = ptr->next){
-        if(*((int*)(ptr->data)) == 5)
-            break;
-    }
-    linkedListTwo->tail->next = ptr;
-    linkedListTwo->tail = linkedListOne->tail;
+    merge_linked_lists_two(linkedListOne,linkedListTwo,3);
     Bool val = haveCommonElementTwo(linkedListOne,linkedListTwo);
     printf("%d",val);
 }
@@ -55,6 +48,7 @@ static void testReversingLinkedLists(){
     toString(linkedList);
 }
 
+//merging like merge sort but for linked lists.
 static void testMergingLinkedLists(){
     List *linkedListTwo = (List *) malloc(sizeof(List));
     void (*fnPtr)(void *) = destroy;
@@ -81,6 +75,13 @@ static void testIfCycle(){
     printf("%d\n", val);
 }
 
+static void testIfListsMergedCycle(){
+    List *linkedListA = makeLinkedList(10, FALSE);
+    List *linkedListB = makeLinkedList(7, FALSE);
+//    merge_linked_lists_two(linkedListA,linkedListB,9);
+    Bool val = haveCommonElementThree(linkedListA,linkedListB);
+    printf("%d\n",val);
+}
 
 static void test(char testType[]){
     if(!strcmp("mergeLinkedLists",testType)){
@@ -94,6 +95,9 @@ static void test(char testType[]){
     }
     else if(!strcmp("checkIfCycle",testType)){
         testIfCycle();
+    }
+    else if (!strcmp("checkIfMergedCycle", testType)){
+        testIfListsMergedCycle();
     }
 }
 

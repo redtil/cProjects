@@ -86,6 +86,7 @@ void toString(List *linkedList){
     }
 }
 
+//merging in this case is actually merge sort for linked lists.
 List *merge_linked_lists(List *listOne, List *listTwo) {
     List *mergedList = (List *) malloc(sizeof(List));
     list_init(mergedList, destroy);
@@ -143,9 +144,22 @@ void reverseLinkedList(List *linkedList){
     linkedList->tail = temp;
 }
 
+//merges two linked lists. This is not merge sort
+void merge_linked_lists_two(List *listOne, List *listTwo, int mergePoint){
+    ListElmt *ptr;
+    int cnt = 0;
+    for(ptr = listOne->head; ptr!= NULL; ptr = ptr->next){
+        if(cnt == mergePoint) break;
+        cnt++;
+    }
+    listTwo->tail->next = ptr;
+    listTwo->tail = listOne->tail;
+}
+
 static void printListElmt(ListElmt *elmt){
     printf("%d",*((int*)(elmt->data)));
 }
+
 void reverseSubLinkedList(List *linkedList, int start, int end){
     if(start < 0 || end < 0 || start > end) return;
     if(start == end) return;
@@ -183,6 +197,26 @@ void reverseSubLinkedList(List *linkedList, int start, int end){
     if(afterEndElmt == NULL){
         linkedList->tail = startElmt;
     }
+}
+
+//Using Floyd's Algorithm
+Bool checkIfCycle(List *linkedList){
+    if(linkedList == NULL || linkedList->head == NULL) return FALSE;
+    ListElmt *i = linkedList->head;
+    ListElmt *j = i;
+    ListElmt *k = i;
+    int cnt=0;
+    while(k != NULL){
+        i= i->next;
+        j = k->next;
+        if(j == NULL) return FALSE;
+        k = j->next;
+        if(i == k){
+            return TRUE;
+        }
+        cnt++;
+    }
+    return FALSE;
 }
 
 Bool haveCommonElementOne(List *listOne, List *listTwo){
@@ -249,22 +283,44 @@ Bool haveCommonElementTwo(List *listOne, List *listTwo){
     return FALSE;
 }
 
-//Using Floyd's Algorithm
-Bool checkIfCycle(List *linkedList){
-    if(linkedList == NULL || linkedList->head == NULL) return FALSE;
+//linkedList must be a cyclic linkedList
+ListElmt *getElmtCyclicList(List *linkedList){
     ListElmt *i = linkedList->head;
     ListElmt *j = i;
     ListElmt *k = i;
-    int cnt=0;
     while(k != NULL){
         i= i->next;
         j = k->next;
-        if(j == NULL) return FALSE;
         k = j->next;
         if(i == k){
-            return TRUE;
+            return i;
         }
-        cnt++;
     }
-    return FALSE;
+    return NULL;
+
 }
+//one linked list having a cycle
+Bool haveCommonElementThree(List *a, List *b){
+    ListElmt *mergeListElmtA;
+    ListElmt *mergeListElmtB;
+    if(checkIfCycle(a) == 1){
+       mergeListElmtA = getElmtCyclicList(a);
+    }else{
+        return haveCommonElementOne(a,b);
+    }
+    if(checkIfCycle(b) == 1){
+        mergeListElmtB = getElmtCyclicList(b);
+    }
+    ListElmt *ptr = a->head;
+    int cnt = 0;
+    while(ptr != NULL){
+        if(ptr == mergeListElmtB) return TRUE;
+        if(ptr == mergeListElmtA) {
+            cnt++;
+            if(cnt == 2) return FALSE;
+        }
+        ptr = ptr->next;
+    }
+}
+
+
