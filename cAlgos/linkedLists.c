@@ -248,3 +248,23 @@ Bool haveCommonElementTwo(List *listOne, List *listTwo){
     }
     return FALSE;
 }
+
+//Using Floyd's Algorithm
+Bool checkIfCycle(List *linkedList){
+    if(linkedList == NULL || linkedList->head == NULL) return FALSE;
+    ListElmt *i = linkedList->head;
+    ListElmt *j = i;
+    ListElmt *k = i;
+    int cnt=0;
+    while(k != NULL){
+        i= i->next;
+        j = k->next;
+        if(j == NULL) return FALSE;
+        k = j->next;
+        if(i == k){
+            return TRUE;
+        }
+        cnt++;
+    }
+    return FALSE;
+}

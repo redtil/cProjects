@@ -10,7 +10,8 @@
 #include "linkedLists.h"
 #include <string.h>
 
-static List *makeLinkedList(int size){
+static List *makeLinkedList(int size, Bool makeCycle){
+    ListElmt *cycleStrtElmt;
     List *linkedListOne = (List *) malloc(sizeof(List));
     void (*fnPtr)(void *) = destroy;
     list_init(linkedListOne,fnPtr);
@@ -21,13 +22,19 @@ static List *makeLinkedList(int size){
         int *data = (int *)malloc(sizeof(int));
         *data = i;
         list_ins_next(linkedListOne,listElmt,data);
+        if(i == 3)
+            cycleStrtElmt = linkedListOne->tail;
+    }
+    if(makeCycle){
+        linkedListOne->tail->next = cycleStrtElmt;
     }
     return linkedListOne;
 }
 
+
 static void testIfListsMerged(){
-    List *linkedListOne = makeLinkedList(10);
-    List *linkedListTwo = makeLinkedList(10);
+    List *linkedListOne = makeLinkedList(10,FALSE);
+    List *linkedListTwo = makeLinkedList(10,FALSE);
     ListElmt *ptr;
     for(ptr = linkedListOne->head; ptr!= NULL; ptr = ptr->next){
         if(*((int*)(ptr->data)) == 5)
@@ -41,7 +48,7 @@ static void testIfListsMerged(){
 
 
 static void testReversingLinkedLists(){
-    List *linkedList = makeLinkedList(10);
+    List *linkedList = makeLinkedList(10,FALSE);
     toString(linkedList);
     printf("\n");
     reverseSubLinkedList(linkedList, 2, 2);
@@ -54,7 +61,7 @@ static void testMergingLinkedLists(){
     list_init(linkedListTwo,fnPtr);
     ListElmt *listElmt;
     int i;
-    List *linkedListOne = makeLinkedList(5);
+    List *linkedListOne = makeLinkedList(5,FALSE);
     for(i = 10; i > 0; i--){
         listElmt= (ListElmt *)malloc(sizeof(ListElmt));
         int *data = (int *)malloc(sizeof(int));
@@ -68,6 +75,13 @@ static void testMergingLinkedLists(){
     }
 }
 
+static void testIfCycle(){
+    List *linkedList = makeLinkedList(10,TRUE);
+    Bool val = checkIfCycle(linkedList);
+    printf("%d\n", val);
+}
+
+
 static void test(char testType[]){
     if(!strcmp("mergeLinkedLists",testType)){
         testMergingLinkedLists();
@@ -77,6 +91,9 @@ static void test(char testType[]){
     }
     else if(!strcmp("checkIfMerged",testType)){
         testIfListsMerged();
+    }
+    else if(!strcmp("checkIfCycle",testType)){
+        testIfCycle();
     }
 }
 
